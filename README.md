@@ -21,7 +21,6 @@ This project implements a **Security Information and Event Management (SIEM)** s
 - Creating **security rules in Kibana using KQL**.
 
 ---
-### **How to Set Up**
 ### **Install ELK Stack**
 ```bash
 sudo apt install elasticsearch kibana logstash

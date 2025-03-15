@@ -26,3 +26,4 @@ This project implements a **Security Information and Event Management (SIEM)** s
 sudo apt install elasticsearch kibana logstash
 ```
 
+- Future documentation - Work in Progress

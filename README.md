@@ -1,1 +1,0 @@
-# SIEM-ELK-Stack-Project-

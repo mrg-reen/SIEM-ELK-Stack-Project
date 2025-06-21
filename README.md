@@ -27,14 +27,8 @@ Configured logstash.yml:
 
 ## Lessons Learned
 - discovery.type is not added to the elasticsearch.yml by default, this must be added for single-node.
--
-
-  
 
 ---
-### **Install ELK Stack**
-```bash
-sudo apt install elasticsearch kibana logstash
-```
+
 
 - Future documentation - Work in Progress

@@ -1,0 +1,45 @@
+##### Download & Install
+# Download & unpack
+Invoke-WebRequest https://artifacts.elastic.co/downloads/beats/winlogbeat/
+winlogbeat-(VERSION NUMBER)-windows-x86_64.zip -OutFile winlogbeat.zip
+tar -xf winlogbeat.zip -C 'C:\Program Files\Winlogbeat'
+
+# Install service
+cd 'C:\Program Files\Winlogbeat'
+.\winlogbeat.exe install
+
+##### Configuration for 'winlogbeat.yml'
+# Top‑level paths\path.data: C:/ProgramData/winlogbeat/data
+path.logs: C:/ProgramData/winlogbeat/logs
+# Event logs\winlogbeat.event_logs:
+- name: Application
+- name: System
+- name: Security
+- name: Microsoft-Windows-Sysmon/Operational
+# Elasticsearch output
+output.elasticsearch:
+hosts: ["http://elk-server:9200"]
+username: "winlogbeat_agent"
+password: "<password>"
+# Kibana setup
+setup.kibana:
+host: "http://elk-server:5601"
+username: "kibana_system"
+password: "<password>"
+# Logging\logging.level: debug
+logging.to_files: true
+logging.files:
+path: C:/ProgramData/winlogbeat/logs
+name: winlogbeat.log
+keepfiles: 7
+
+##### Validation & Troubleshooting
+# Test config
+cd 'C:\Program Files\Winlogbeat'
+.\winlogbeat.exe test config -c .\winlogbeat.yml
+# Test output
+.\winlogbeat.exe test output -c .\winlogbeat.yml
+# Tail service log
+Get-Content 'C:\ProgramData\winlogbeat\logs\winlogbeat.log' -Wait
+# Check indices in ES
+Invoke-RestMethod http://elk-server:9200/_cat/indices/winlogbeat-*?v

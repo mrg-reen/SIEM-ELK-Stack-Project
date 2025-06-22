@@ -1,0 +1,57 @@
+##### Install & Enable
+# Add Elastic repository & key
+
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch \
+| sudo gpg --dearmor -o /usr/share/keyrings/elastic-archive-keyring.gpg
+echo 'deb [signed-by=/usr/share/keyrings/elastic-archive-keyring.gpg] https://
+artifacts.elastic.co/packages/8.x/apt stable main' \
+| sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update
+sudo apt-get install -y filebeat
+
+# Enable at boot & start
+
+sudo systemctl enable filebeat.service
+sudo systemctl start filebeat.service
+
+-----
+
+##### Configuration for '/etc/filebeat/filebeat.yml'
+# Inputs
+filebeat.inputs:
+- type: log
+paths:
+- /var/log/*.log
+scan_frequency: 10s
+close_inactive: 1m
+# Elasticsearch Output\output.elasticsearch:
+hosts: ["http://elk-server:9200"]
+username: "filebeat_agent"
+password: "<password>"
+# Dashboards & index setup
+setup.kibana:
+host: "http://elk-server:5601"
+logging.level: debug
+logging.to_files: true
+logging.files:
+path: /var/log/filebeat
+name: filebeat.log
+keepfiles: 7
+
+-----
+
+##### Validation & Troubleshooting
+# Check config syntax
+sudo filebeat test config
+# Check output connectivity
+sudo filebeat test output
+# Verify indices in ES
+curl -s 'http://elk-server:9200/_cat/indices/filebeat-*?v'
+# Tail the service log
+sudo tail -f /var/log/filebeat/filebeat.log
+# Enable and start service
+sudo systemctl enable filebeat
+
+

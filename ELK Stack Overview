@@ -30,5 +30,15 @@ Configured logstash.yml:
 
 ---
 
+## Action Items
 
-- Future documentation - Work in Progress
+- Specify OS versions, hardware requirements & NTP setup in documentation.
+- Standardize headings & markdown formatting across the write‑up.
+- Document Elasticsearch heap sizing, cluster and node naming conventions.
+- Clarify security posture: re-enable TLS & authentication, and store credentials securely.
+- Expand Logstash section with pipeline .conf examples and filter/plugin lists.
+- Include Filebeat modules & per‑OS agent installation steps (Linux, Windows, macOS).
+- Add firewall/UFW commands reflecting actual bind addresses and policies.
+- Build a robust Troubleshooting chapter with common logs, error patterns, and curl/journalctl checks.
+- Outline backup & snapshot processes for ES; introduce ILM and rollover policies.
+- Integrate monitoring (X-Pack or Prometheus/Grafana) for cluster health and Beats metrics.

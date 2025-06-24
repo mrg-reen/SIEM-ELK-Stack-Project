@@ -1,0 +1,23 @@
+name: winlogbeat_sysmon_esql
+logsource:
+  product: windows
+  service: sysmon
+  definition: 'Sysmon via Winlogbeat to ELK using ES|QL'
+  conditions:
+    product: windows
+    service: sysmon
+
+fieldmappings:
+  EventID: event.code
+  Image: process.executable
+  TargetImage: target.process.name
+  SourceImage: process.name
+  CommandLine: process.command_line
+  User: user.name
+  ParentImage: process.parent.executable
+  ParentCommandLine: process.parent.command_line
+  DestinationIp: destination.ip
+  DestinationPort: destination.port
+  SourceIp: source.ip
+  SourcePort: source.port
+  Protocol: network.transport

@@ -1,0 +1,31 @@
+title: LSASS Access by Suspicious Process
+id: b73c1f6d-9b3c-4a35-9d7a-credump001
+status: experimental
+description: Detects access to lsass.exe by common credential dumping tools using Sysmon Event ID 10.
+author: mrg-reen
+date: 2025/06/23
+references:
+  - https://attack.mitre.org/techniques/T1003/
+tags:
+  - attack.credential_access
+  - attack.t1003
+  - sysmon
+logsource:
+  product: windows
+  service: sysmon
+  definition: 'Event ID 10 - Process Access'
+detection:
+  selection:
+    EventID: 10
+    TargetImage|endswith: '\lsass.exe'
+    SourceImage|contains:
+      - 'mimikatz.exe'
+      - 'procdump.exe'
+      - 'rundll32.exe'
+      - 'taskmgr.exe'
+  condition: selection
+falsepositives:
+  - Backup software
+  - Antivirus or EDR
+  - Task Manager
+level: high
